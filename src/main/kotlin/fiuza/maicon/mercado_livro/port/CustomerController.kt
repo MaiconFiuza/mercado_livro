@@ -5,6 +5,7 @@ import fiuza.maicon.mercado_livro.domain.dto.CustomerDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -19,8 +20,14 @@ class CustomerController {
     val customers = mutableListOf<Customer>()
 
     @GetMapping()
-    fun findCustomer(): ResponseEntity<MutableList<Customer>> {
+    fun getAllCustomer(): ResponseEntity<MutableList<Customer>> {
         return ResponseEntity(customers, HttpStatus.OK)
+    }
+
+    @GetMapping("/{id}")
+    fun findCustomer(@PathVariable id: String): ResponseEntity<Customer> {
+        val customer = customers.filter { it -> it.id == id }.first()
+        return ResponseEntity(customer, HttpStatus.OK )
     }
 
     @PostMapping
