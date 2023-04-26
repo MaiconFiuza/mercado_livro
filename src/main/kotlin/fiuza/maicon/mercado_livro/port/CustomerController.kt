@@ -58,4 +58,9 @@ class CustomerController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    fun deleteUser(@PathVariable id: String) {
+        customers.removeIf { it.id == id }
+    }
+
 }
