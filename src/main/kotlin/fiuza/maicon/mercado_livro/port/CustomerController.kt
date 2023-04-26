@@ -2,6 +2,7 @@ package fiuza.maicon.mercado_livro.port
 
 import fiuza.maicon.mercado_livro.domain.Customer
 import fiuza.maicon.mercado_livro.domain.dto.CustomerDto
+import fiuza.maicon.mercado_livro.domain.dto.CustomerPatchDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -51,7 +52,7 @@ class CustomerController {
     }
 
     @PatchMapping("/{id}")
-    fun updateOnly(@PathVariable id: String, @RequestBody updatedUser: CustomerDto) {
+    fun updateOnly(@PathVariable id: String, @RequestBody updatedUser: CustomerPatchDto) {
         customers.filter { it.id == id}.first().let {
             it.name = updatedUser.name
         }
