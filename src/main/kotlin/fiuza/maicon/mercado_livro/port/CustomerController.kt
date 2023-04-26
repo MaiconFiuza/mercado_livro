@@ -4,14 +4,7 @@ import fiuza.maicon.mercado_livro.domain.Customer
 import fiuza.maicon.mercado_livro.domain.dto.CustomerDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/customers")
@@ -48,4 +41,20 @@ class CustomerController {
 
       return ResponseEntity(newCustomer, HttpStatus.CREATED)
     }
+
+    @PutMapping("/{id}") //não é comum método update retornar dados
+    fun updateUser(@PathVariable id: String, @RequestBody updatedUser: CustomerDto) {
+        customers.filter { it.id == id }.first().let {
+            it.name = updatedUser.name
+            it.email= updatedUser.email
+        }
+    }
+
+    @PatchMapping("/{id}")
+    fun updateOnly(@PathVariable id: String, @RequestBody updatedUser: CustomerDto) {
+        customers.filter { it.id == id}.first().let {
+            it.name = updatedUser.name
+        }
+    }
+
 }

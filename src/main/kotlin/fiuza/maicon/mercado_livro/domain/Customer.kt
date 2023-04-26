@@ -5,6 +5,6 @@ import org.springframework.data.annotation.Id
 data class Customer(
     @Id
     val id: String,
-    val name: String,
-    val email: String
+    var name: String,
+    var email: String
 )
