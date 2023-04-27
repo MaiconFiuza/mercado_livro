@@ -14,7 +14,13 @@ class CustomerController {
     val customers = mutableListOf<Customer>()
 
     @GetMapping()
-    fun getAllCustomer(): ResponseEntity<MutableList<Customer>> {
+    fun getAllCustomer(@RequestParam name: String?): ResponseEntity<List<Customer>> {
+        name?.let{
+            var filteredCustomers = customers.filter { it.name.contains(name) }
+            return ResponseEntity(filteredCustomers, HttpStatus.OK)
+        }
+
+
         return ResponseEntity(customers, HttpStatus.OK)
     }
 
