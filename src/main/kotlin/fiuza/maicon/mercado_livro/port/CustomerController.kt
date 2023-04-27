@@ -3,70 +3,49 @@ package fiuza.maicon.mercado_livro.port
 import fiuza.maicon.mercado_livro.domain.Customer
 import fiuza.maicon.mercado_livro.domain.dto.CustomerDto
 import fiuza.maicon.mercado_livro.domain.dto.CustomerPatchDto
+import fiuza.maicon.mercado_livro.services.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/customers")
-class CustomerController {
-
-    val customers = mutableListOf<Customer>()
+class CustomerController(
+    val customerService: CustomerService
+) {
 
     @GetMapping()
     fun getAllCustomer(@RequestParam name: String?): ResponseEntity<List<Customer>> {
-        name?.let{
-            var filteredCustomers = customers.filter { it.name.contains(name) }
-            return ResponseEntity(filteredCustomers, HttpStatus.OK)
-        }
+        val allCustomer =  customerService.getAll(name)
 
-
-        return ResponseEntity(customers, HttpStatus.OK)
+        return ResponseEntity(allCustomer, HttpStatus.OK)
     }
 
     @GetMapping("/{id}")
     fun findCustomer(@PathVariable id: String): ResponseEntity<Customer> {
-        val customer = customers.filter { it -> it.id == id }.first()
+        val customer = customerService.find(id)
         return ResponseEntity(customer, HttpStatus.OK )
     }
 
     @PostMapping
     fun createCustomer(@RequestBody customer: CustomerDto): ResponseEntity<Customer> {
-        val id = if (customers.isEmpty()) {
-            "1"
-        } else {
-            customers.last().id.toInt() + 1
-        }.toString()
-
-        val newCustomer =  Customer(
-           id = id,
-           name = customer.name,
-           email = customer.email
-       )
-
-      customers.add(newCustomer)
-
+      val newCustomer = customerService.create(customer)
       return ResponseEntity(newCustomer, HttpStatus.CREATED)
     }
 
     @PutMapping("/{id}") //não é comum método update retornar dados
     fun updateUser(@PathVariable id: String, @RequestBody updatedUser: CustomerDto) {
-        customers.filter { it.id == id }.first().let {
-            it.name = updatedUser.name
-            it.email= updatedUser.email
-        }
+        customerService.update(id, updatedUser)
     }
 
     @PatchMapping("/{id}")
     fun updateOnly(@PathVariable id: String, @RequestBody updatedUser: CustomerPatchDto) {
-        customers.filter { it.id == id}.first().let {
-            it.name = updatedUser.name
-        }
+        customerService.onlyUpdate(id,updatedUser)
     }
 
     @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable id: String) {
-        customers.removeIf { it.id == id }
+        customerService.delete(id)
     }
 
 }
