@@ -25,12 +25,14 @@ class CustomerService {
        return customers.filter { it -> it.id == id }.first()
     }
 
-    fun create(customer: CustomerDto): Customer {
+    fun create(customer: Customer): Customer {
         val id = if (customers.isEmpty()) {
             "1"
         } else {
-            customers.last().id.toInt() + 1
+            customers.last().id!!.toInt() + 1
         }.toString()
+
+        customer.id = id
 
         val newCustomer =  Customer(
             id = id,

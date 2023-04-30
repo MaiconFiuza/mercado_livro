@@ -3,6 +3,7 @@ package fiuza.maicon.mercado_livro.port
 import fiuza.maicon.mercado_livro.domain.Customer
 import fiuza.maicon.mercado_livro.domain.dto.CustomerDto
 import fiuza.maicon.mercado_livro.domain.dto.CustomerPatchDto
+import fiuza.maicon.mercado_livro.extensions.toCustomerModel
 import fiuza.maicon.mercado_livro.services.CustomerService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -29,7 +30,7 @@ class CustomerController(
 
     @PostMapping
     fun createCustomer(@RequestBody customer: CustomerDto): ResponseEntity<Customer> {
-      val newCustomer = customerService.create(customer)
+      val newCustomer = customerService.create(customer.toCustomerModel())
       return ResponseEntity(newCustomer, HttpStatus.CREATED)
     }
 

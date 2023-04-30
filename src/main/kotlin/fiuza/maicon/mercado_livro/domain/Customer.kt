@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id
 
 data class Customer(
     @Id
-    val id: String,
+    var id: String? = null,
     var name: String,
     var email: String
 )
