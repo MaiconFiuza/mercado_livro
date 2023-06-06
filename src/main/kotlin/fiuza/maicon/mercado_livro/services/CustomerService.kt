@@ -21,16 +21,16 @@ class CustomerService {
         return customers
     }
 
-    fun find(id: String): Customer {
+    fun find(id: Int): Customer {
        return customers.filter { it -> it.id == id }.first()
     }
 
     fun create(customer: Customer): Customer {
         val id = if (customers.isEmpty()) {
-            "1"
+            1
         } else {
             customers.last().id!!.toInt() + 1
-        }.toString()
+        }
 
         customer.id = id
 
@@ -44,20 +44,20 @@ class CustomerService {
         return newCustomer
     }
 
-    fun update(id: String, customer: CustomerDto) {
+    fun update(id: Int, customer: CustomerDto) {
         customers.filter { it.id == id }.first().let {
             it.name = customer.name
             it.email= customer.email
         }
     }
 
-    fun onlyUpdate(id: String, customer: CustomerPatchDto) {
+    fun onlyUpdate(id: Int, customer: CustomerPatchDto) {
         customers.filter { it.id == id}.first().let {
             it.name = customer.name
         }
     }
 
-    fun delete(id: String) {
+    fun delete(id: Int) {
         customers.removeIf { it.id == id }
     }
 }

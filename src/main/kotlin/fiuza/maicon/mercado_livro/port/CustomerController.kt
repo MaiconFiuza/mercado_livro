@@ -23,7 +23,7 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
-    fun findCustomer(@PathVariable id: String): ResponseEntity<Customer> {
+    fun findCustomer(@PathVariable id: Int): ResponseEntity<Customer> {
         val customer = customerService.find(id)
         return ResponseEntity(customer, HttpStatus.OK )
     }
@@ -35,17 +35,17 @@ class CustomerController(
     }
 
     @PutMapping("/{id}") //não é comum método update retornar dados
-    fun updateUser(@PathVariable id: String, @RequestBody updatedUser: CustomerDto) {
+    fun updateUser(@PathVariable id: Int, @RequestBody updatedUser: CustomerDto) {
         customerService.update(id, updatedUser)
     }
 
     @PatchMapping("/{id}")
-    fun updateOnly(@PathVariable id: String, @RequestBody updatedUser: CustomerPatchDto) {
+    fun updateOnly(@PathVariable id: Int, @RequestBody updatedUser: CustomerPatchDto) {
         customerService.onlyUpdate(id,updatedUser)
     }
 
     @DeleteMapping("/{id}")
-    fun deleteUser(@PathVariable id: String) {
+    fun deleteUser(@PathVariable id: Int) {
         customerService.delete(id)
     }
 

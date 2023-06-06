@@ -1,10 +1,16 @@
 package fiuza.maicon.mercado_livro.domain
 
-import org.springframework.data.annotation.Id
+import jakarta.persistence.*
 
+@Entity(name = "customer")
 data class Customer(
     @Id
-    var id: String? = null,
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int? = null,
+
+    @Column
     var name: String,
+
+    @Column
     var email: String
 )
