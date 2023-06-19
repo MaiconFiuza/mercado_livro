@@ -14,6 +14,10 @@ class CustomerService(
 ) {
 
     fun getAll(name: String?): List<Customer> {
+        name?.let {
+            //return customerRepository.findByNameContaining(it)
+            return customerRepository.findByNameStartsWith(it)
+        }
         return customerRepository.findAll()
     }
 
