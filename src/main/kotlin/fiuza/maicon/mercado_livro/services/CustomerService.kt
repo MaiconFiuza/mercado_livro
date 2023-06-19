@@ -25,13 +25,12 @@ class CustomerService(
         return customerRepository.save(customer)
     }
 
-    //fun update(id: Int, customer: CustomerDto) {
-        //val oldCustomer = customerRepository.findById(id).
-        //customers.filter { it.id == id }.first().let {
-            //it.name = customer.name
-            //it.email= customer.email
-            //}
-        //}
+    fun update(id: Int, customer: Customer) {
+        if (!customerRepository.existsById(id)) {
+            throw Exception("Deu ruim na atualização do usuário")
+        }
+        customerRepository.save(customer)
+    }
 
     //fun onlyUpdate(id: Int, customer: CustomerPatchDto) {
         //customers.filter { it.id == id}.first().let {
@@ -40,6 +39,9 @@ class CustomerService(
   //  }
 
     fun delete(id: Int) {
+       if(!customerRepository.existsById(id)) {
+           throw Exception();
+       }
         customerRepository.deleteById(id)
     }
 }

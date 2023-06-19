@@ -34,10 +34,10 @@ class CustomerController(
       return ResponseEntity(newCustomer, HttpStatus.CREATED)
     }
 
-   // @PutMapping("/{id}") //não é comum método update retornar dados
-    //fun updateUser(@PathVariable id: Int, @RequestBody updatedUser: CustomerDto) {
-      //  customerService.update(id, updatedUser)
-    //}
+    @PutMapping("/{id}") //não é comum método update retornar dados
+    fun updateUser(@PathVariable id: Int, @RequestBody updatedUser: Customer) {
+       customerService.update(id, updatedUser)
+    }
 
     //@PatchMapping("/{id}")
     //fun updateOnly(@PathVariable id: Int, @RequestBody updatedUser: CustomerPatchDto) {
